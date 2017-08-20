@@ -1,7 +1,9 @@
 import * as PostAPIUtil from '../utils/post_api_util';
+import * as CategoryAPIUtil from '../utils/category_api_util'
 export const ADD_POST = 'ADD_POST'
 export const ADD_COMMENT = 'ADD_COMMENT'
-export const RECEIVE_POSTS = "RECEIVE_POSTS";
+export const RECEIVE_POSTS = "RECEIVE_POSTS"
+export const RECEIVE_CATEGORIES = "RECEIVE_CATEGORIES"
 
 export const receivePosts = posts => ({
   type: RECEIVE_POSTS,
@@ -12,6 +14,17 @@ export const fetchPosts = () => dispatch => (
   PostAPIUtil
       .fetchPosts()
       .then(posts => dispatch(receivePosts(posts)))
+);
+
+export const receiveCategories = categories => ({
+  type: RECEIVE_CATEGORIES,
+  categories
+});
+
+export const fetchCategories = () => dispatch => (
+  CategoryAPIUtil
+      .fetchCategories()
+      .then(categories => dispatch(receiveCategories(categories)))
 );
 
 

@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux';
-import { fetchPosts } from '../actions';
+import { fetchPosts, fetchCategories } from '../actions';
 
   // {this.props.posts.map(post =>
   //   <div className='post' key='post.id'>
@@ -10,7 +10,7 @@ import { fetchPosts } from '../actions';
 
 class Home extends Component {
   componentDidMount() {
-        this.props.fetchData();
+        this.props.fetchData()
     }
   render () {
     return (
@@ -19,13 +19,10 @@ class Home extends Component {
         <div style={{width: '30%', float: 'left'}}>
           <h2>Categories</h2>
           <ul>
-            <li>Category</li>
-            <li>Category</li>
-            <li>Category</li>
-            <li>Category</li>
-            <li>Category</li>
-            <li>Category</li>
-            <li>Category</li>
+            {this.props.categories && this.props.categories.length > 0 && this.props.categories.map(category =>
+              <li key={category.path}>{category.name}</li>
+            )}
+
           </ul>
         </div>
         <div style={{width: '70%', float: 'left'}}>
@@ -46,15 +43,16 @@ class Home extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        posts: state,
+        posts: state.receivePosts,
+        categories: state.receiveCategories
     };
 };
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        fetchData: () => dispatch(fetchPosts())
-    };
-};
+        fetchData: () => dispatch(fetchPosts()).then(() => dispatch(fetchCategories()))
+    }
+}
 
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home)
