@@ -5,9 +5,10 @@ class Category extends Component {
     return (
       <div>
         <h1>Category</h1>
-        <h3>{this.props.match.params.category}</h3>
+        <h3>
+          {this.props.match.params.category}
+        </h3>
       </div>
-
     )
   }
 }

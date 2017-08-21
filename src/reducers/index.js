@@ -3,22 +3,21 @@ import { ADD_POST, RECEIVE_POSTS, RECEIVE_CATEGORIES } from '../actions'
 
 function receivePosts (state = {}, action) {
   switch (action.type) {
-    case RECEIVE_POSTS :
+    case RECEIVE_POSTS:
       return action.posts
-    default :
+    default:
       return state
-      }
   }
+}
 
-  function receiveCategories (state = null, action) {
-    switch (action.type) {
-      case RECEIVE_CATEGORIES :
-        return action.categories
-      default :
-        return state
-        }
-    }
-
+function receiveCategories (state = null, action) {
+  switch (action.type) {
+    case RECEIVE_CATEGORIES:
+      return action.categories
+    default:
+      return state
+  }
+}
 
 // function post (state, action) {
 //   const { id, timestamp, title, body, author, category, voteScore, deleted } = action
@@ -40,5 +39,5 @@ function receivePosts (state = {}, action) {
 
 export default combineReducers({
   receivePosts,
-  receiveCategories,
+  receiveCategories
 })

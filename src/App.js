@@ -1,10 +1,10 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 import { BrowserRouter, Route, Switch } from 'react-router-dom'
 import { createStore, applyMiddleware, compose } from 'redux'
 import reducer from './reducers'
 import { Provider } from 'react-redux'
 import thunk from 'redux-thunk'
-import './App.css';
+import './App.css'
 
 // Import Views
 import Category from './views/Category'
@@ -25,13 +25,11 @@ const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
 
 const store = createStore(
   reducer,
-  composeEnhancers(
-    applyMiddleware(logger, thunk)
-  )
+  composeEnhancers(applyMiddleware(logger, thunk))
 )
 
 class App extends Component {
-  render() {
+  render () {
     return (
       <Provider store={store}>
         <BrowserRouter>
@@ -43,9 +41,8 @@ class App extends Component {
           </Switch>
         </BrowserRouter>
       </Provider>
-
-    );
+    )
   }
 }
 
-export default App;
+export default App
