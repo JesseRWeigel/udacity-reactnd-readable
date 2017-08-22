@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux'
-import { ADD_POST, RECEIVE_POSTS, RECEIVE_CATEGORIES } from '../actions'
+import { GET_POST, RECEIVE_POSTS, RECEIVE_CATEGORIES } from '../actions'
 
 function receivePosts (state = {}, action) {
   switch (action.type) {
@@ -19,25 +19,17 @@ function receiveCategories (state = null, action) {
   }
 }
 
-// function post (state, action) {
-//   const { id, timestamp, title, body, author, category, voteScore, deleted } = action
-//
-//   switch (action.type) {
-//     case ADD_POST :
-//       return {
-//         ...state,
-//         [id]: {
-//           ...state[id],
-//           [category]: post.category,
-//         }
-//       }
-//
-//     default :
-//       return state
-//   }
-// }
+function getPost (state = null, action) {
+  switch (action.type) {
+    case GET_POST:
+      return action.post
+    default:
+      return state
+  }
+}
 
 export default combineReducers({
   receivePosts,
-  receiveCategories
+  receiveCategories,
+  getPost
 })

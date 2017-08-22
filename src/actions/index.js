@@ -4,6 +4,7 @@ export const ADD_POST = 'ADD_POST'
 export const ADD_COMMENT = 'ADD_COMMENT'
 export const RECEIVE_POSTS = 'RECEIVE_POSTS'
 export const RECEIVE_CATEGORIES = 'RECEIVE_CATEGORIES'
+export const GET_POST = 'GET_POST'
 
 export const receivePosts = posts => ({
   type: RECEIVE_POSTS,
@@ -22,6 +23,14 @@ export const fetchCategories = () => dispatch =>
   CategoryAPIUtil.fetchCategories().then(categories =>
     dispatch(receiveCategories(categories))
   )
+
+export const getPost = post => ({
+  type: GET_POST,
+  post
+})
+
+export const fetchPost = (id) => dispatch =>
+  PostAPIUtil.fetchPost(id).then(post => dispatch(getPost(post)))
 
 export function addPost ({
   id,
