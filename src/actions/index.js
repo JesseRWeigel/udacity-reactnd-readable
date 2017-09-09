@@ -7,6 +7,7 @@ export const RECEIVE_POSTS = 'RECEIVE_POSTS'
 export const RECEIVE_CATEGORIES = 'RECEIVE_CATEGORIES'
 export const GET_POST = 'GET_POST'
 export const RECEIVE_COMMENTS = 'RECEIVE_COMMENTS'
+export const GET_POSTS_BY_CATEGORY = 'GET_POSTS_BY_CATEGORY'
 
 export const receivePosts = posts => ({
   type: RECEIVE_POSTS,
@@ -25,6 +26,14 @@ export const fetchCategories = () => dispatch =>
   CategoryAPIUtil.fetchCategories().then(categories =>
     dispatch(receiveCategories(categories))
   )
+
+export const getPostsByCategory = posts => ({
+  type: GET_POSTS_BY_CATEGORY,
+  posts
+})
+
+export const fetchPostsByCategory = (category) => dispatch =>
+  PostAPIUtil.fetchPostsByCategory(category).then(posts => dispatch(getPostsByCategory(posts)))
 
 export const receiveComments = comments => ({
   type: RECEIVE_COMMENTS,

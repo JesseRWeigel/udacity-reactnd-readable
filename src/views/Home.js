@@ -18,7 +18,10 @@ class Home extends Component  {
               this.props.categories.length > 0 &&
               this.props.categories.map(category =>
                 <li key={category.path}>
-                  {category.name}
+                  <Link to={`/${category.name}`}>
+                    {category.name}
+                  </Link>
+
                 </li>
               )}
           </ul>
