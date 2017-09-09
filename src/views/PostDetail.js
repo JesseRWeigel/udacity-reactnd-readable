@@ -1,36 +1,57 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { fetchPost } from '../actions'
+import { withRouter } from 'react-router-dom'
+import { fetchPost, fetchComments } from '../actions'
 import '../styles/app.css'
 
 class PostDetail extends Component {
+
     componentWillMount () {
       this.props.fetchData(this.props.match.params.post_id)
     }
+
   render () {
     return (
       <div>
-        <h1>Post Detail</h1>
-        <h3>
-          PostID: {this.props.post && this.props.post.length > 0 && this.props.post.title}
+        {this.props.post &&
+          <div>
+            <h1>{this.props.post.title}({this.props.post.voteScore} <span id='plus'>+</span>/<span id='minus'>-</span>)</h1>
+            <span className='author'>Author: {this.props.post.author}</span>
+            <span className='timestamp'>Date: {new Date(this.props.post.timestamp).toDateString()}</span>
 
-        </h3>
+
+            <p>
+              {this.props.post.body}
+            </p>
+            <span>Edit / Delete </span>
+          </div>
+        }
+
+        <h2>Comments ({this.props.comments && this.props.comments.comments.length})</h2>
+        {this.props.comments && this.props.comments.comments.length > 0 && this.props.comments.comments.map(comment =>
+          <div key={comment.id}>
+            <hr />
+            <span className='author'>Comment by: {comment.author}</span>
+            <span className='timestamp'>Date: {new Date(comment.timestamp).toDateString()}</span>
+            <p>{comment.body} <span className='score'>({comment.voteScore} <span id='plus'>+</span>/<span id='minus'>-</span>)</span></p>
+            <span>Edit / Delete </span>
+          </div>
+        )}
+
       </div>
-    )
-  }
-}
 
-const mapStateToProps = state => {
-  return {
-    post: state.getPost,
-  }
-}
+          )
+        }
+        }
 
-const mapDispatchToProps = dispatch => {
-  return {
-    fetchData: (id) =>
-      dispatch(fetchPost(id))
-  }
-}
+        const mapStateToProps = state => ({
+          post: state.getPost,
+          comments: state.receiveComments
+        })
 
-export default connect(mapStateToProps, mapDispatchToProps)(PostDetail)
+        const mapDispatchToProps = dispatch => ({
+          fetchData: id =>
+          dispatch(fetchPost(id)).then(() => dispatch(fetchComments(id)))
+  })
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(PostDetail))

@@ -36,7 +36,7 @@ class App extends Component {
           <Switch>
             <Route exact path='/' component={Home} />
             <Route exact path='/:category' component={Category} />
-            <Route path='/:posts/:post_id' component={PostDetail} />
+            <Route path='/:category/:post_id' component={PostDetail} />
             <Route path='/create-post' component={CreatePost} />
           </Switch>
         </BrowserRouter>
