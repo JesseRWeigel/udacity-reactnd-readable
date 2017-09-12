@@ -50,7 +50,7 @@ class Home extends Component  {
 }
 
 const mapStateToProps = state => ({
-    posts: state.receivePosts,
+    posts: state.postsById,
     categories: state.receiveCategories
   })
 

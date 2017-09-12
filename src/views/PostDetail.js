@@ -1,13 +1,21 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
-import { fetchPost, fetchComments } from '../actions'
+import { fetchPost, fetchComments, vote } from '../actions'
 import '../styles/app.css'
 
 class PostDetail extends Component {
+  constructor(props) {
+    super(props)
+  }
 
     componentWillMount () {
       this.props.fetchData(this.props.match.params.post_id)
+    }
+
+    submitVote = (id, voteType) => {
+      this.props.dispatch(vote(id, voteType))
+      console.log(id, voteType)
     }
 
   render () {
@@ -15,7 +23,7 @@ class PostDetail extends Component {
       <div>
         {this.props.post &&
           <div>
-            <h1>{this.props.post.title}({this.props.post.voteScore} <span id='plus'>+</span>/<span id='minus'>-</span>)</h1>
+            <h1>{this.props.post.title}({this.props.post.voteScore} <span id='plus' onClick={ () => this.submitVote(this.props.post.id, 'upVote')}>+</span>/<span id='minus' onClick={() => this.submitVote(this.props.post.id, 'downVote')}>-</span>)</h1>
             <span className='author'>Author: {this.props.post.author}</span>
             <span className='timestamp'>Date: {new Date(this.props.post.timestamp).toDateString()}</span>
 
@@ -49,9 +57,10 @@ class PostDetail extends Component {
           comments: state.receiveComments
         })
 
-        const mapDispatchToProps = dispatch => ({
+        const mapDispatchToProps = dispatch => ({ dispatch,
           fetchData: id =>
           dispatch(fetchPost(id)).then(() => dispatch(fetchComments(id)))
+
   })
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(PostDetail))

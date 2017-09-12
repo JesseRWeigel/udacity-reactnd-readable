@@ -8,14 +8,27 @@ export const RECEIVE_CATEGORIES = 'RECEIVE_CATEGORIES'
 export const GET_POST = 'GET_POST'
 export const RECEIVE_COMMENTS = 'RECEIVE_COMMENTS'
 export const GET_POSTS_BY_CATEGORY = 'GET_POSTS_BY_CATEGORY'
+export const SET_SORTING = 'SET_SORTING'
+export const VOTE = 'VOTE'
 
-export const receivePosts = posts => ({
+export const Sorting = {
+  BY_DATE_NEWEST: 'BY_DATE_NEWEST',
+  BY_DATE_OLDEST: 'BY_DATE_OLDEST',
+  BY_SCORE_HIGHEST: 'BY_SCORE_HIGHEST',
+  BY_SCORE_LOWEST: 'BY_SCORE_LOWEST',
+}
+
+export function setSorting(sortBy) {
+  return { type: SET_SORTING, sortBy }
+}
+
+export const postsById = posts => ({
   type: RECEIVE_POSTS,
   posts
 })
 
 export const fetchPosts = () => dispatch =>
-  PostAPIUtil.fetchPosts().then(posts => dispatch(receivePosts(posts)))
+  PostAPIUtil.fetchPosts().then(posts => dispatch(postsById(posts)))
 
 export const receiveCategories = categories => ({
   type: RECEIVE_CATEGORIES,
@@ -52,6 +65,14 @@ export const getPost = post => ({
 
 export const fetchPost = (id) => dispatch =>
   PostAPIUtil.fetchPost(id).then(post => dispatch(getPost(post)))
+
+export const postVote = post => ({
+  type:VOTE,
+  post
+})
+
+export const vote = (id, vote) => dispatch =>
+  PostAPIUtil.vote(id, vote).then(post => dispatch(postVote(post)))
 
 export function addPost ({
   id,
