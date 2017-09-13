@@ -12,6 +12,7 @@ export const SET_SORTING = 'SET_SORTING'
 export const VOTE = 'VOTE'
 export const ADD_COMMENTS = 'ADD_COMMENTS'
 export const COMMENT_VOTE = 'COMMENT_VOTE'
+export const DELETE_POST = 'DELETE_POST'
 
 export const Sorting = {
   BY_DATE_NEWEST: 'BY_DATE_NEWEST',
@@ -70,6 +71,9 @@ export const getPost = post => ({
 
 export const fetchPost = (id) => dispatch =>
   PostAPIUtil.fetchPost(id).then(post => dispatch(getPost(post)))
+
+export const deletePost = (id) => dispatch =>
+  PostAPIUtil.deletePost(id).then(post => dispatch(postsById(post, DELETE_POST)))
 
 export const postVote = post => ({
   type:VOTE,

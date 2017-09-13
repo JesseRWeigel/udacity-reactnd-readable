@@ -8,6 +8,17 @@ export const fetchPostsByCategory = (category) => fetch(`http://localhost:5001/$
 // Get a single post based on id
 export const fetchPost = (id) => fetch(`http://localhost:5001/posts/${id}`, { headers: { 'Authorization': 'whatever-you-want' }}).then(data => data.json())
 
+// Delete post
+export const deletePost = (id) =>
+  fetch(`http://localhost:5001/posts/${id}`,
+    {
+      method: 'DELETE',
+      headers: {
+       'Authorization': 'whatever-you-want',
+     }
+    })
+    .then(data => data.json())
+
 // Change voteScore for a post
 export const vote = (id, vote) =>
   fetch(`http://localhost:5001/posts/${id}`,

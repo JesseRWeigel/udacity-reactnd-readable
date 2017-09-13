@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { fetchPosts, fetchCategories, vote } from '../actions'
+import { fetchPosts, fetchCategories, vote, deletePost } from '../actions'
 import { Link } from 'react-router-dom'
 import '../styles/app.css'
 const uuidv1 = require('uuid/v1')
@@ -16,6 +16,10 @@ class Home extends Component  {
 
   submitVote = (id, voteType) => {
     this.props.dispatch(vote(id, voteType))
+  }
+
+  deletePost = id => {
+    this.props.dispatch(deletePost(id))
   }
 
   render () {
@@ -54,7 +58,7 @@ class Home extends Component  {
                 <span>Score> {post.voteScore} <span id='plus' onClick={ () => this.submitVote(post.id, 'upVote')}>+</span>/<span id='minus' onClick={() => this.submitVote(post.id, 'downVote')}>-</span></span>
                 <span><Link to={`/edit-post/${post.id}`}>
                   Edit
-                </Link> / Delete></span>
+                </Link> / <span onClick={() => this.deletePost(post.id)}>Delete</span></span>
               </div>
             )}
         </div>

@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { withRouter, Link } from 'react-router-dom'
-import { fetchPost, fetchComments, vote, addComment } from '../actions'
+import { fetchPost, fetchComments, vote, addComment, deletePost } from '../actions'
 import EditComment from '../components/EditComment'
 import '../styles/app.css'
 const uuidv1 = require('uuid/v1')
@@ -65,6 +65,10 @@ class PostDetail extends Component {
         this.props.dispatch(addComment(data))
       }
 
+    deletePost = id => {
+      this.props.dispatch(deletePost(id))
+    }
+
   render () {
     return (
       <div>
@@ -80,7 +84,7 @@ class PostDetail extends Component {
               </p>
               <span><Link to={`/edit-post/${this.props.post.id}`}>
                 Edit
-              </Link> / Delete </span>
+              </Link> / <span onClick={() => this.deletePost(this.props.post.id)}>Delete</span> </span>
             </div>
             }
 
