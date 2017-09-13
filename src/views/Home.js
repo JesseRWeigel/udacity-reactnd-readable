@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { fetchPosts, fetchCategories } from '../actions'
 import { Link } from 'react-router-dom'
 import '../styles/app.css'
+const uuidv1 = require('uuid/v1')
 
 class Home extends Component  {
   componentDidMount () {
@@ -27,11 +28,13 @@ class Home extends Component  {
           </ul>
         </div>
         <div style={{ width: '70%', float: 'left' }}>
-          <h2>Posts</h2>
+          <h2>Posts (<Link to='/create-post'>
+            Add New
+          </Link>)</h2>
 
           {this.props.posts.length > 0 &&
             this.props.posts.map(post =>
-              <div className='post' key={post.id}>
+              <div className='post' key={uuidv1()}>
                 <Link to={`/${post.category}/${post.id}`}>
                   <h3>
                     {post.title}

@@ -2,7 +2,7 @@ import * as PostAPIUtil from '../utils/post_api_util'
 import * as CategoryAPIUtil from '../utils/category_api_util'
 import * as CommentAPIUtil from '../utils/comment_api_util'
 export const ADD_POST = 'ADD_POST'
-export const ADD_COMMENT = 'ADD_COMMENT'
+// export const ADD_COMMENT = 'ADD_COMMENT'
 export const RECEIVE_POSTS = 'RECEIVE_POSTS'
 export const RECEIVE_CATEGORIES = 'RECEIVE_CATEGORIES'
 export const GET_POST = 'GET_POST'
@@ -22,13 +22,13 @@ export function setSorting(sortBy) {
   return { type: SET_SORTING, sortBy }
 }
 
-export const postsById = posts => ({
-  type: RECEIVE_POSTS,
+export const postsById = (posts, actionType) => ({
+  type: actionType,
   posts
 })
 
 export const fetchPosts = () => dispatch =>
-  PostAPIUtil.fetchPosts().then(posts => dispatch(postsById(posts)))
+  PostAPIUtil.fetchPosts().then(posts => dispatch(postsById(posts, RECEIVE_POSTS)))
 
 export const receiveCategories = categories => ({
   type: RECEIVE_CATEGORIES,
@@ -74,48 +74,5 @@ export const postVote = post => ({
 export const vote = (id, vote) => dispatch =>
   PostAPIUtil.vote(id, vote).then(post => dispatch(postVote(post)))
 
-export function addPost ({
-  id,
-  timestamp,
-  title,
-  body,
-  author,
-  category,
-  voteScore,
-  deleted
-}) {
-  return {
-    type: ADD_POST,
-    id,
-    timestamp,
-    title,
-    body,
-    author,
-    category,
-    voteScore,
-    deleted
-  }
-}
-
-export function addComment ({
-  id,
-  parentId,
-  timestamp,
-  body,
-  author,
-  voteScore,
-  deleted,
-  parentDeleted
-}) {
-  return {
-    type: ADD_COMMENT,
-    id,
-    parentId,
-    timestamp,
-    body,
-    author,
-    voteScore,
-    deleted,
-    parentDeleted
-  }
-}
+  export const addPost = (data) => dispatch =>
+    PostAPIUtil.addPost(data).then(post => dispatch(postsById(post, ADD_POST)))

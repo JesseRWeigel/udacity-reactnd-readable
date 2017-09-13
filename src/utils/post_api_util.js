@@ -20,3 +20,16 @@ export const vote = (id, vote) =>
      body: JSON.stringify({option: vote})
     })
     .then(data => data.json())
+
+// Add new post
+export const addPost = (data) =>
+  fetch(`http://localhost:5001/posts`,
+    {
+      method: 'POST',
+      headers: {
+       'Authorization': 'whatever-you-want',
+       'Content-Type': 'application/json'
+     },
+     body: JSON.stringify(data)
+    })
+    .then(data => data.json())

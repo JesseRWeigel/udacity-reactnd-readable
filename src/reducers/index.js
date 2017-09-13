@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux'
-import { GET_POST, GET_POSTS_BY_CATEGORY, RECEIVE_POSTS, RECEIVE_CATEGORIES, RECEIVE_COMMENTS, SET_SORTING, Sorting, VOTE } from '../actions'
+import { GET_POST, GET_POSTS_BY_CATEGORY, RECEIVE_POSTS, RECEIVE_CATEGORIES, RECEIVE_COMMENTS, SET_SORTING, Sorting, VOTE, ADD_POST } from '../actions'
 const { BY_DATE_NEWEST } = Sorting
 
 const initialState = {
@@ -42,7 +42,10 @@ function mapPosts(posts) {
 function postsById(state = {}, action) {
   switch (action.type) {
     case RECEIVE_POSTS:
-    return action.posts
+    return [...state, ...action.posts]
+
+    case ADD_POST:
+    return [...state, ...action.posts]
 
     default:
     return state
