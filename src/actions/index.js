@@ -2,7 +2,7 @@ import * as PostAPIUtil from '../utils/post_api_util'
 import * as CategoryAPIUtil from '../utils/category_api_util'
 import * as CommentAPIUtil from '../utils/comment_api_util'
 export const ADD_POST = 'ADD_POST'
-// export const ADD_COMMENT = 'ADD_COMMENT'
+export const ADD_COMMENT = 'ADD_COMMENT'
 export const RECEIVE_POSTS = 'RECEIVE_POSTS'
 export const RECEIVE_CATEGORIES = 'RECEIVE_CATEGORIES'
 export const GET_POST = 'GET_POST'
@@ -48,14 +48,14 @@ export const getPostsByCategory = posts => ({
 export const fetchPostsByCategory = (category) => dispatch =>
   PostAPIUtil.fetchPostsByCategory(category).then(posts => dispatch(getPostsByCategory(posts)))
 
-export const receiveComments = comments => ({
-  type: RECEIVE_COMMENTS,
+export const receiveComments = (comments, actionType) => ({
+  type: actionType,
   comments
 })
 
 export const fetchComments = (id) => dispatch =>
   CommentAPIUtil.fetchComments(id).then(comments =>
-    dispatch(receiveComments(comments))
+    dispatch(receiveComments(comments, RECEIVE_COMMENTS))
   )
 
 export const getPost = post => ({
@@ -76,3 +76,6 @@ export const vote = (id, vote) => dispatch =>
 
   export const addPost = (data) => dispatch =>
     PostAPIUtil.addPost(data).then(post => dispatch(postsById(post, ADD_POST)))
+
+  export const addComment = (data) => dispatch =>
+    CommentAPIUtil.addComment(data).then(comment => dispatch(receiveComments(comment, ADD_COMMENT)))
