@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux'
-import { GET_POST, GET_POSTS_BY_CATEGORY, RECEIVE_POSTS, RECEIVE_CATEGORIES, RECEIVE_COMMENTS, SET_SORTING, Sorting, VOTE, ADD_POST } from '../actions'
+import { GET_POST, GET_POSTS_BY_CATEGORY, RECEIVE_POSTS, RECEIVE_CATEGORIES, RECEIVE_COMMENTS, SET_SORTING, Sorting, VOTE, ADD_POST, COMMENT_VOTE, ADD_COMMENTS } from '../actions'
 const { BY_DATE_NEWEST } = Sorting
 
 const initialState = {
@@ -61,10 +61,14 @@ function getPostsByCategory (state = {}, action) {
   }
 }
 
-function receiveComments (state = null, action) {
+function receiveComments (state = {}, action) {
   switch (action.type) {
     case RECEIVE_COMMENTS:
-      return {...state, comments: action.comments}
+      return [...state, ...action.comments]
+    case ADD_COMMENTS:
+      return [...state, ...action.comments]
+    case COMMENT_VOTE:
+      return [...state, ...action.comments]
     default:
       return state
   }

@@ -10,6 +10,8 @@ export const RECEIVE_COMMENTS = 'RECEIVE_COMMENTS'
 export const GET_POSTS_BY_CATEGORY = 'GET_POSTS_BY_CATEGORY'
 export const SET_SORTING = 'SET_SORTING'
 export const VOTE = 'VOTE'
+export const ADD_COMMENTS = 'ADD_COMMENTS'
+export const COMMENT_VOTE = 'COMMENT_VOTE'
 
 export const Sorting = {
   BY_DATE_NEWEST: 'BY_DATE_NEWEST',
@@ -57,6 +59,9 @@ export const fetchComments = (id) => dispatch =>
   CommentAPIUtil.fetchComments(id).then(comments =>
     dispatch(receiveComments(comments, RECEIVE_COMMENTS))
   )
+
+export const voteComment = (id, vote) => dispatch =>
+  CommentAPIUtil.voteComment(id, vote).then(post => dispatch(receiveComments(post, COMMENT_VOTE)))
 
 export const getPost = post => ({
   type: GET_POST,

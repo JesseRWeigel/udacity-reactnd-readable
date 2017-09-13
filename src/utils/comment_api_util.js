@@ -15,3 +15,16 @@ export const addComment = (data) =>
      body: JSON.stringify(data)
     })
     .then(data => data.json())
+
+  // Change voteScore for a comment
+  export const voteComment = (id, vote) =>
+    fetch(`http://localhost:5001/comments/${id}`,
+      {
+        method: 'POST',
+        headers: {
+         'Authorization': 'whatever-you-want',
+         'Content-Type': 'application/json'
+       },
+       body: JSON.stringify({option: vote})
+      })
+      .then(data => data.json())

@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { addComment } from '../actions'
+import { addComment, voteComment } from '../actions'
 import '../styles/app.css'
 
 class EditComment extends Component {
@@ -19,6 +19,10 @@ class EditComment extends Component {
       commentAuthor: this.props.author,
       commentContent: this.props.body
     })
+  }
+
+  submitVote = (id, voteType) => {
+    this.props.dispatch(voteComment(id, voteType))
   }
 
 
@@ -63,7 +67,7 @@ class EditComment extends Component {
           <hr />
           <span className='author'>Comment by: {this.props.author}</span>
           <span className='timestamp'>Date: {new Date(this.props.timestamp).toDateString()}</span>
-          <p>{this.props.body} <span className='score'>({this.props.voteScore} <span id='plus'>+</span>/<span id='minus'>-</span>)</span></p>
+          <p>{this.props.body} <span className='score'>({this.props.voteScore} <span id='plus' onClick={ () => this.submitVote(this.props.id, 'upVote')}>+</span>/<span id='minus' onClick={() => this.submitVote(this.props.id, 'downVote')}>-</span>)</span></p>
           <span><span onClick={this.beginEdit}>Edit</span> / Delete </span>
           {this.state.showEditor &&
             <form onSubmit={this.handleEditSubmit}>

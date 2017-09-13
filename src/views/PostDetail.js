@@ -22,7 +22,6 @@ class PostDetail extends Component {
 
     submitVote = (id, voteType) => {
       this.props.dispatch(vote(id, voteType))
-      console.log(id, voteType)
     }
 
    handleInputChange = (event) => {
@@ -71,7 +70,7 @@ class PostDetail extends Component {
       <div>
         {this.props.post &&
           <div>
-            <h1>{this.props.post.title}({this.props.post.voteScore} <span id='plus' onClick={ () => this.submitVote(this.props.post.id, 'upVote')}>+</span>/<span id='minus' onClick={() => this.submitVote(this.props.post.id, 'downVote')}>-</span>)</h1>
+            <h1>{this.props.post.title}(Votes: {this.props.post.voteScore} <span id='plus' onClick={ () => this.submitVote(this.props.post.id, 'upVote')}>+</span>/<span id='minus' onClick={() => this.submitVote(this.props.post.id, 'downVote')}>-</span>)</h1>
               <span className='author'>Author: {this.props.post.author}</span>
               <span className='timestamp'>Date: {new Date(this.props.post.timestamp).toDateString()}</span>
 
@@ -85,8 +84,8 @@ class PostDetail extends Component {
             </div>
             }
 
-              <h2>Comments ({this.props.comments && this.props.comments.comments.length})</h2>
-              {this.props.comments && this.props.comments.comments.length > 0 && this.props.comments.comments.map(comment =>
+              <h2>Comments ({this.props.comments && this.props.comments.length})</h2>
+              {this.props.comments && this.props.comments.length > 0 && this.props.comments.map(comment =>
                 <EditComment
                   key={comment.id}
                   id={comment.id}
