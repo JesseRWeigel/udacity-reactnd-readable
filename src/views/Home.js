@@ -43,7 +43,9 @@ class Home extends Component  {
                 <span>Author> {post.author}</span>
                 <span>Comments> {post.comments}</span>
                 <span>Score> {post.voteScore} <span id='plus'>+</span>/<span id='minus'>-</span></span>
-                <span>Edit / Delete></span>
+                <span><Link to={`/edit-post/${post.id}`}>
+                  Edit
+                </Link> / Delete></span>
               </div>
             )}
         </div>

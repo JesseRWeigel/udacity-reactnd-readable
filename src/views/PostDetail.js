@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { withRouter } from 'react-router-dom'
+import { withRouter, Link } from 'react-router-dom'
 import { fetchPost, fetchComments, vote } from '../actions'
 import '../styles/app.css'
 
@@ -24,14 +24,16 @@ class PostDetail extends Component {
         {this.props.post &&
           <div>
             <h1>{this.props.post.title}({this.props.post.voteScore} <span id='plus' onClick={ () => this.submitVote(this.props.post.id, 'upVote')}>+</span>/<span id='minus' onClick={() => this.submitVote(this.props.post.id, 'downVote')}>-</span>)</h1>
-            <span className='author'>Author: {this.props.post.author}</span>
-            <span className='timestamp'>Date: {new Date(this.props.post.timestamp).toDateString()}</span>
+              <span className='author'>Author: {this.props.post.author}</span>
+              <span className='timestamp'>Date: {new Date(this.props.post.timestamp).toDateString()}</span>
 
 
-            <p>
-              {this.props.post.body}
-            </p>
-            <span>Edit / Delete </span>
+              <p>
+                {this.props.post.body}
+              </p>
+              <span><Link to={`/edit-post/${this.props.post.id}`}>
+                Edit
+              </Link> / Delete </span>
           </div>
         }
 
