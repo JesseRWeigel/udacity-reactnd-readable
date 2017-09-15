@@ -1,11 +1,11 @@
 export const fetchComments = (id) =>
-  fetch(`http://localhost:5001/posts/${id}/comments`, { headers: { 'Authorization': 'whatever-you-want' }})
+  fetch(`http://localhost:3001/posts/${id}/comments`, { headers: { 'Authorization': 'whatever-you-want' }})
     .then(data => data.json())
     .then(data => data)
 
 // Add new post
 export const addComment = (data) =>
-  fetch(`http://localhost:5001/comments`,
+  fetch(`http://localhost:3001/comments`,
     {
       method: 'POST',
       headers: {
@@ -18,7 +18,7 @@ export const addComment = (data) =>
 
   // Change voteScore for a comment
   export const voteComment = (id, vote) =>
-    fetch(`http://localhost:5001/comments/${id}`,
+    fetch(`http://localhost:3001/comments/${id}`,
       {
         method: 'POST',
         headers: {

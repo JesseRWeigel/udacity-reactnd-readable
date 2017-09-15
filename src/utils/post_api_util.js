@@ -1,16 +1,16 @@
 //  Get all posts
-export const fetchPosts = () => fetch('http://localhost:5001/posts', { headers: { 'Authorization': 'whatever-you-want' }}).then(data => data.json())
+export const fetchPosts = () => fetch('http://localhost:3001/posts', { headers: { 'Authorization': 'whatever-you-want' }}).then(data => data.json())
 
 // Get all posts in a category
-export const fetchPostsByCategory = (category) => fetch(`http://localhost:5001/${category}/posts`, { headers: { 'Authorization': 'whatever-you-want' }}).then(data => data.json())
+export const fetchPostsByCategory = (category) => fetch(`http://localhost:3001/${category}/posts`, { headers: { 'Authorization': 'whatever-you-want' }}).then(data => data.json())
 
 
 // Get a single post based on id
-export const fetchPost = (id) => fetch(`http://localhost:5001/posts/${id}`, { headers: { 'Authorization': 'whatever-you-want' }}).then(data => data.json())
+export const fetchPost = (id) => fetch(`http://localhost:3001/posts/${id}`, { headers: { 'Authorization': 'whatever-you-want' }}).then(data => data.json())
 
 // Delete post
 export const deletePost = (id) =>
-  fetch(`http://localhost:5001/posts/${id}`,
+  fetch(`http://localhost:3001/posts/${id}`,
     {
       method: 'DELETE',
       headers: {
@@ -21,7 +21,7 @@ export const deletePost = (id) =>
 
 // Change voteScore for a post
 export const vote = (id, vote) =>
-  fetch(`http://localhost:5001/posts/${id}`,
+  fetch(`http://localhost:3001/posts/${id}`,
     {
       method: 'POST',
       headers: {
@@ -34,7 +34,7 @@ export const vote = (id, vote) =>
 
 // Add new post
 export const addPost = (data) =>
-  fetch(`http://localhost:5001/posts`,
+  fetch(`http://localhost:3001/posts`,
     {
       method: 'POST',
       headers: {

@@ -45,22 +45,24 @@ class Home extends Component  {
             Add New
           </Link>)</h2>
 
-          {this.props.posts.length > 0 &&
-            this.props.posts.map(post =>
+          {this.props.posts &&
+            Object.keys(this.props.posts).map((k) => (
               <div className='post' key={uuidv1()}>
-                <Link to={`/${post.category}/${post.id}`}>
+                <Link to={`/${this.props.posts[k].category}/${this.props.posts[k].id}`}>
                   <h3>
-                    {post.title}
+                    {this.props.posts[k].title}
                   </h3>
                 </Link>
-                <span>Author> {post.author}</span>
-                <span>Comments> {post.comments}</span>
-                <span>Score> {post.voteScore} <span id='plus' onClick={ () => this.submitVote(post.id, 'upVote')}>+</span>/<span id='minus' onClick={() => this.submitVote(post.id, 'downVote')}>-</span></span>
-                <span><Link to={`/edit-post/${post.id}`}>
-                  Edit
-                </Link> / <span onClick={() => this.deletePost(post.id)}>Delete</span></span>
+                <span>Author> {this.props.posts[k].author}</span>
+                <span>Comments> {this.props.posts[k].comments}</span>
+                <span>Score> {this.props.posts[k].voteScore} <span id='plus' onClick={ () => this.submitVote(this.props.posts[k].id, 'upVote')}>+</span>/<span id='minus' onClick={() => this.submitVote(this.props.posts[k].id, 'downVote')}>-</span></span>
+                  <span><Link to={`/edit-post/${this.props.posts[k].id}`}>
+                    Edit
+                  </Link> / <span onClick={() => this.deletePost(this.props.posts[k].id)}>Delete</span></span>
               </div>
-            )}
+            ))
+
+          }
         </div>
       </div>
     )

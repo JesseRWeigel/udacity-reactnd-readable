@@ -36,13 +36,22 @@ function receiveCategories (state = null, action) {
 }
 
 function mapPosts(posts) {
-  return posts.posts.map(post => {([post.id]: post)})
+  console.log(posts[0])
+  const newObj = {}
+  for (let i = 0; i < posts.length; i++) {
+    const post = posts[i]
+    console.log(post)
+    const postId = post.id
+    console.log(postId)
+    newObj[postId] = post
+  }
+  return newObj
 }
 
 function postsById(state = {}, action) {
   switch (action.type) {
     case RECEIVE_POSTS:
-    return [...state, ...action.posts]
+    return {...state, ...mapPosts(action.posts)}
 
     case ADD_POST:
     return [...state, ...action.posts]
