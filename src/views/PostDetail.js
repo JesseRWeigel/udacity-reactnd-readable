@@ -74,9 +74,9 @@ class PostDetail extends Component {
       <div>
         {this.props.post &&
           Object.keys(this.props.post).map((k) =>
-            k = this.props.match.params.post_id &&
-              <div>
-                <h1>{this.props.post[k].title}(Votes: {this.props.post[k].voteScore} <span id='plus' onClick={ () => this.submitVote(this.props.post[k].id, 'upVote')}>+</span>/<span id='minus' onClick={() => this.submitVote(this.props.post[k].id, 'downVote')}>-</span>)</h1>
+            k === this.props.match.params.post_id &&
+              <div key={k}>
+                <h1>{this.props.post[k].title}(Votes: {this.props.post[k].voteScore} <span id='plus' onClick={ () => this.submitVote(k, 'upVote')}>+</span>/<span id='minus' onClick={() => this.submitVote(k, 'downVote')}>-</span>)</h1>
                   <span className='author'>Author: {this.props.post[k].author}</span>
                   <span className='timestamp'>Date: {new Date(this.props.post[k].timestamp).toDateString()}</span>
 
@@ -91,19 +91,20 @@ class PostDetail extends Component {
                 )}
 
                   <h2>Comments ({this.props.comments && this.props.comments.length})</h2>
-                  {this.props.comments && Object.keys(this.props.comments).map((k) =>
-                    <EditComment
-                      key={k}
-                      id={k}
-                      timestamp={this.props.comments[k].timestamp}
-                      body={this.props.comments[k].body}
-                      author={this.props.comments[k].author}
-                      parentId={this.props.comments[k].parentId}
-                      voteScore={this.props.comments[k].voteScore}
-                      deleted={this.props.comments[k].deleted}
-                      parentDeleted={this.props.comments[k].parentDeleted}
-                />
-              )}
+                  {this.props.comments && Object.keys(this.props.comments).map((k) => (
+                    !this.props.comments[k].deleted &&
+                      <EditComment
+                        key={k}
+                        id={k}
+                        timestamp={this.props.comments[k].timestamp}
+                        body={this.props.comments[k].body}
+                        author={this.props.comments[k].author}
+                        parentId={this.props.comments[k].parentId}
+                        voteScore={this.props.comments[k].voteScore}
+                        deleted={this.props.comments[k].deleted}
+                        parentDeleted={this.props.comments[k].parentDeleted}
+                      />
+                  ))}
               <div className='new-comment'>
                 <h3>Add a new comment:</h3>
                 <form onSubmit={this.handleSubmit}>

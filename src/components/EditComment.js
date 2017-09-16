@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { addComment, voteComment } from '../actions'
+import { addComment, voteComment, deleteComment } from '../actions'
 import '../styles/app.css'
 
 class EditComment extends Component {
@@ -25,6 +25,10 @@ class EditComment extends Component {
     this.props.dispatch(voteComment(id, voteType))
   }
 
+  handleDelete = id => {
+    this.props.dispatch(deleteComment(id))
+  }
+
 
    handleInputChange = (event) => {
       const target = event.target;
@@ -37,27 +41,27 @@ class EditComment extends Component {
     }
 
 
-      handleEditSubmit = (event) => {
-        event.preventDefault();
-        const data = {
-          id: this.props.id,
-          timestamp: this.props.timestamp,
-          body: this.state.commentContent,
-          author: this.state.commentAuthor,
-          parentId: this.props.parentId,
-          voteScore: this.props.voteScore,
-          deleted: this.props.deleted,
-          parentDeleted: false
-        }
-        console.log(data)
-        this.props.dispatch(addComment(data))
+    handleEditSubmit = (event) => {
+      event.preventDefault();
+      const data = {
+        id: this.props.id,
+        timestamp: this.props.timestamp,
+        body: this.state.commentContent,
+        author: this.state.commentAuthor,
+        parentId: this.props.parentId,
+        voteScore: this.props.voteScore,
+        deleted: this.props.deleted,
+        parentDeleted: false
       }
+      console.log(data)
+      this.props.dispatch(addComment(data))
+    }
 
-      beginEdit = () => {
-        this.setState({
-          showEditor: true
-        })
-      }
+    beginEdit = () => {
+      this.setState({
+        showEditor: true
+      })
+    }
 
   render () {
     return (
@@ -68,8 +72,8 @@ class EditComment extends Component {
           <span className='author'>Comment by: {this.props.author}</span>
           <span className='timestamp'>Date: {new Date(this.props.timestamp).toDateString()}</span>
           <p>{this.props.body} <span className='score'>({this.props.voteScore} <span id='plus' onClick={ () => this.submitVote(this.props.id, 'upVote')}>+</span>/<span id='minus' onClick={() => this.submitVote(this.props.id, 'downVote')}>-</span>)</span></p>
-          <span><span onClick={this.beginEdit}>Edit</span> / Delete </span>
-          {this.state.showEditor &&
+            <span><span onClick={this.beginEdit}>Edit</span> / <span onClick={() => this.handleDelete(this.props.id)}>Delete</span> </span>
+            {this.state.showEditor &&
             <form onSubmit={this.handleEditSubmit}>
 
               <div className='input-container'>

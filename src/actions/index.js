@@ -12,6 +12,7 @@ export const SET_SORTING = 'SET_SORTING'
 export const VOTE = 'VOTE'
 export const COMMENT_VOTE = 'COMMENT_VOTE'
 export const DELETE_POST = 'DELETE_POST'
+export const DELETE_COMMENT = 'DELETE_COMMENT'
 
 export const Sorting = {
   BY_DATE_NEWEST: 'BY_DATE_NEWEST',
@@ -77,3 +78,6 @@ export const addPost = (data) => dispatch =>
 
 export const addComment = (data) => dispatch =>
   CommentAPIUtil.addComment(data).then(comment => dispatch(receiveComments(comment, ADD_COMMENT)))
+
+export const deleteComment = (id) => dispatch =>
+  CommentAPIUtil.deleteComment(id).then(comment => dispatch(receiveComments(comment, DELETE_COMMENT)))
