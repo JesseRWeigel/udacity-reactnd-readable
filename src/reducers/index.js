@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux'
-import { GET_POST, GET_POSTS_BY_CATEGORY, RECEIVE_POSTS, RECEIVE_CATEGORIES, RECEIVE_COMMENTS, SET_SORTING, Sorting, VOTE, ADD_POST, COMMENT_VOTE, ADD_COMMENTS, DELETE_POST } from '../actions'
+import { GET_POST, GET_POSTS_BY_CATEGORY, RECEIVE_POSTS, RECEIVE_CATEGORIES, RECEIVE_COMMENTS, SET_SORTING, Sorting, VOTE, ADD_POST, COMMENT_VOTE, ADD_COMMENT, DELETE_POST } from '../actions'
 const { BY_DATE_NEWEST } = Sorting
 
 const initialState = {
@@ -51,13 +51,11 @@ function postsById(state = {}, action) {
     case RECEIVE_POSTS:
     return {...state, ...makeObj(action.posts)}
 
-    case ADD_POST:
-    return {...state, ...makeObj(action.posts)}
-
-    case DELETE_POST:
-    return {...state, ...makeObj(action.posts)}
+    case GET_POST:
 
     case VOTE:
+    case ADD_POST:
+    case DELETE_POST:
     return {...state, ...makeObj([action.posts])}
 
     default:
@@ -77,24 +75,25 @@ function getPostsByCategory (state = {}, action) {
 function receiveComments (state = {}, action) {
   switch (action.type) {
     case RECEIVE_COMMENTS:
-      return [...state, ...action.comments]
-    case ADD_COMMENTS:
-      return [...state, ...action.comments]
+      return {...state, ...makeObj(action.comments)}
+
+    case ADD_COMMENT:
     case COMMENT_VOTE:
-      return [...state, ...action.comments]
+      return {...state, ...makeObj([action.comments])}
+
     default:
       return state
   }
 }
 
-function getPost (state = null, action) {
-  switch (action.type) {
-    case GET_POST:
-      return action.post
-    default:
-      return state
-  }
-}
+// function getPost (state = null, action) {
+//   switch (action.type) {
+//     case GET_POST:
+//       return action.post
+//     default:
+//       return state
+//   }
+// }
 
 // function postVote (state = null, action) {
 //   switch (action.type) {
@@ -110,7 +109,6 @@ export default combineReducers({
   receiveCategories,
   getPostsByCategory,
   receiveComments,
-  getPost,
   sort,
   postsById
 })

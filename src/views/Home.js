@@ -47,8 +47,9 @@ class Home extends Component  {
 
           {this.props.posts &&
             Object.keys(this.props.posts).map((k) => (
-              <div className='post' key={uuidv1()}>
-                <Link to={`/${this.props.posts[k].category}/${this.props.posts[k].id}`}>
+              !this.props.posts[k].deleted &&
+                <div className='post' key={uuidv1()}>
+                  <Link to={`/${this.props.posts[k].category}/${this.props.posts[k].id}`}>
                   <h3>
                     {this.props.posts[k].title}
                   </h3>

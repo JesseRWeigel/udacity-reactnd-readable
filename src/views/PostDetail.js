@@ -73,33 +73,35 @@ class PostDetail extends Component {
     return (
       <div>
         {this.props.post &&
-          <div>
-            <h1>{this.props.post.title}(Votes: {this.props.post.voteScore} <span id='plus' onClick={ () => this.submitVote(this.props.post.id, 'upVote')}>+</span>/<span id='minus' onClick={() => this.submitVote(this.props.post.id, 'downVote')}>-</span>)</h1>
-              <span className='author'>Author: {this.props.post.author}</span>
-              <span className='timestamp'>Date: {new Date(this.props.post.timestamp).toDateString()}</span>
+          Object.keys(this.props.post).map((k) =>
+            k = this.props.match.params.post_id &&
+              <div>
+                <h1>{this.props.post[k].title}(Votes: {this.props.post[k].voteScore} <span id='plus' onClick={ () => this.submitVote(this.props.post[k].id, 'upVote')}>+</span>/<span id='minus' onClick={() => this.submitVote(this.props.post[k].id, 'downVote')}>-</span>)</h1>
+                  <span className='author'>Author: {this.props.post[k].author}</span>
+                  <span className='timestamp'>Date: {new Date(this.props.post[k].timestamp).toDateString()}</span>
 
 
-              <p>
-                {this.props.post.body}
-              </p>
-              <span><Link to={`/edit-post/${this.props.post.id}`}>
-                Edit
-              </Link> / <span onClick={() => this.deletePost(this.props.post.id)}>Delete</span> </span>
-            </div>
-            }
+                  <p>
+                    {this.props.post[k].body}
+                  </p>
+                  <span><Link to={`/edit-post/${this.props.post[k].id}`}>
+                    Edit
+                  </Link> / <span onClick={() => this.deletePost(this.props.post[k].id)}>Delete</span> </span>
+                </div>
+                )}
 
-              <h2>Comments ({this.props.comments && this.props.comments.length})</h2>
-              {this.props.comments && this.props.comments.length > 0 && this.props.comments.map(comment =>
-                <EditComment
-                  key={comment.id}
-                  id={comment.id}
-                  timestamp={comment.timestamp}
-                  body={comment.body}
-                  author={comment.author}
-                  parentId={comment.parentId}
-                  voteScore={comment.voteScore}
-                  deleted={comment.deleted}
-                  parentDeleted={comment.parentDeleted}
+                  <h2>Comments ({this.props.comments && this.props.comments.length})</h2>
+                  {this.props.comments && Object.keys(this.props.comments).map((k) =>
+                    <EditComment
+                      key={k}
+                      id={k}
+                      timestamp={this.props.comments[k].timestamp}
+                      body={this.props.comments[k].body}
+                      author={this.props.comments[k].author}
+                      parentId={this.props.comments[k].parentId}
+                      voteScore={this.props.comments[k].voteScore}
+                      deleted={this.props.comments[k].deleted}
+                      parentDeleted={this.props.comments[k].parentDeleted}
                 />
               )}
               <div className='new-comment'>
@@ -137,7 +139,7 @@ class PostDetail extends Component {
         }
 
         const mapStateToProps = state => ({
-          post: state.getPost,
+          post: state.postsById,
           comments: state.receiveComments
         })
 

@@ -5,6 +5,7 @@ import { addPost, fetchPost } from '../actions'
 import '../styles/app.css'
 const uuidv1 = require('uuid/v1')
 
+
 class CreatePost extends Component {
     constructor(props) {
       super(props)
@@ -18,12 +19,15 @@ class CreatePost extends Component {
   }
 
     componentWillMount () {
-      this.props.fetchData(this.props.match.params.post_id)
+      const k = this.props.match.params.post_id
+      console.log(this.props.post)
+      console.log(k)
+      this.props.fetchData(k)
       this.setState({
-        postTitle: this.props.post.title,
-        postAuthor: this.props.post.author,
-        postCategory: this.props.post.category,
-        postContent: this.props.post.body
+        postTitle: this.props.post[k].title,
+        postAuthor: this.props.post[k].author,
+        postCategory: this.props.post[k].category,
+        postContent: this.props.post[k].body
       })
     }
 
@@ -39,14 +43,14 @@ class CreatePost extends Component {
 
   handleSubmit = (event) => {
     event.preventDefault();
-    const data = {id: this.props.post.id,
-      timestamp: this.props.post.timestamp,
+    const data = {id: this.props.post[this.props.match.params.post_id].id,
+      timestamp: this.props.post[this.props.match.params.post_id].timestamp,
       title: this.state.postTitle,
       body: this.state.postContent,
       author: this.state.postAuthor,
       category: this.state.postCategory,
-      voteScore: this.props.post.voteScore,
-      deleted: this.props.post.deleted}
+      voteScore: this.props.post[this.props.match.params.post_id].voteScore,
+      deleted: this.props.post[this.props.match.params.post_id].deleted}
     console.log(data)
     this.props.dispatch(addPost(data))
   }
@@ -112,7 +116,7 @@ class CreatePost extends Component {
   }
 
       const mapStateToProps = state => ({
-        post: state.getPost,
+        post: state.postsById,
       })
 
       const mapDispatchToProps = dispatch => ({ dispatch,
