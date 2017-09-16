@@ -75,16 +75,11 @@ export const fetchPost = (id) => dispatch =>
 export const deletePost = (id) => dispatch =>
   PostAPIUtil.deletePost(id).then(post => dispatch(postsById(post, DELETE_POST)))
 
-export const postVote = post => ({
-  type:VOTE,
-  post
-})
-
 export const vote = (id, vote) => dispatch =>
-  PostAPIUtil.vote(id, vote).then(post => dispatch(postVote(post)))
+  PostAPIUtil.vote(id, vote).then(post => dispatch(postsById(post, VOTE)))
 
-  export const addPost = (data) => dispatch =>
-    PostAPIUtil.addPost(data).then(post => dispatch(postsById(post, ADD_POST)))
+export const addPost = (data) => dispatch =>
+  PostAPIUtil.addPost(data).then(post => dispatch(postsById(post, ADD_POST)))
 
-  export const addComment = (data) => dispatch =>
-    CommentAPIUtil.addComment(data).then(comment => dispatch(receiveComments(comment, ADD_COMMENT)))
+export const addComment = (data) => dispatch =>
+  CommentAPIUtil.addComment(data).then(comment => dispatch(receiveComments(comment, ADD_COMMENT)))

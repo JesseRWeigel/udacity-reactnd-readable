@@ -35,15 +35,13 @@ function receiveCategories (state = null, action) {
   }
 }
 
-function mapPosts(posts) {
-  console.log(posts[0])
+function makeObj(items) {
+  console.log(items)
   const newObj = {}
-  for (let i = 0; i < posts.length; i++) {
-    const post = posts[i]
-    console.log(post)
-    const postId = post.id
-    console.log(postId)
-    newObj[postId] = post
+  for (let i = 0; i < items.length; i++) {
+    const item = items[i]
+    const itemId = item.id
+    newObj[itemId] = item
   }
   return newObj
 }
@@ -51,13 +49,16 @@ function mapPosts(posts) {
 function postsById(state = {}, action) {
   switch (action.type) {
     case RECEIVE_POSTS:
-    return {...state, ...mapPosts(action.posts)}
+    return {...state, ...makeObj(action.posts)}
 
     case ADD_POST:
-    return [...state, ...action.posts]
+    return {...state, ...makeObj(action.posts)}
 
     case DELETE_POST:
-    return [...state, ...action.posts]
+    return {...state, ...makeObj(action.posts)}
+
+    case VOTE:
+    return {...state, ...makeObj([action.posts])}
 
     default:
     return state
@@ -95,14 +96,14 @@ function getPost (state = null, action) {
   }
 }
 
-function postVote (state = null, action) {
-  switch (action.type) {
-    case GET_POST:
-      return action.post
-    default:
-      return state
-  }
-}
+// function postVote (state = null, action) {
+//   switch (action.type) {
+//     case GET_POST:
+//       return action.post
+//     default:
+//       return state
+//   }
+// }
 
 export default combineReducers({
   // receivePosts,
@@ -111,6 +112,5 @@ export default combineReducers({
   receiveComments,
   getPost,
   sort,
-  postVote,
   postsById
 })
