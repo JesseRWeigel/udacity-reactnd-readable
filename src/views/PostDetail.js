@@ -75,6 +75,7 @@ class PostDetail extends Component {
         {this.props.post &&
           Object.keys(this.props.post).map((k) =>
             k === this.props.match.params.post_id &&
+            !this.props.post[k].deleted &&
               <div key={k}>
                 <h1>{this.props.post[k].title}(Votes: {this.props.post[k].voteScore} <span id='plus' onClick={ () => this.submitVote(k, 'upVote')}>+</span>/<span id='minus' onClick={() => this.submitVote(k, 'downVote')}>-</span>)</h1>
                   <span className='author'>Author: {this.props.post[k].author}</span>
@@ -87,8 +88,8 @@ class PostDetail extends Component {
                   <span><Link to={`/edit-post/${this.props.post[k].id}`}>
                     Edit
                   </Link> / <span onClick={() => this.deletePost(this.props.post[k].id)}>Delete</span> </span>
-                </div>
-                )}
+
+
 
                   <h2>Comments ({this.props.comments && this.props.comments.length})</h2>
                   {this.props.comments && Object.keys(this.props.comments).map((k) => (
@@ -105,34 +106,35 @@ class PostDetail extends Component {
                         parentDeleted={this.props.comments[k].parentDeleted}
                       />
                   ))}
-              <div className='new-comment'>
-                <h3>Add a new comment:</h3>
-                <form onSubmit={this.handleSubmit}>
+                  <div className='new-comment'>
+                    <h3>Add a new comment:</h3>
+                    <form onSubmit={this.handleSubmit}>
 
-                  <div className='input-container'>
-                    <label htmlFor='comment-author'>Author:
-                      <input
-                        type='text'
-                        name='commentAuthor'
-                        id='comment-author'
-                        value={this.state.commentAuthor}
-                        onChange={this.handleInputChange} />
-                    </label>
+                      <div className='input-container'>
+                        <label htmlFor='comment-author'>Author:
+                          <input
+                            type='text'
+                            name='commentAuthor'
+                            id='comment-author'
+                            value={this.state.commentAuthor}
+                            onChange={this.handleInputChange} />
+                        </label>
+                      </div>
+
+                      <div className='input-container'>
+                        <label htmlFor='comment-content'>Content:
+                          <textarea
+                            name='commentContent'
+                            id='comment-content'
+                            value={this.state.commentContent}
+                            onChange={this.handleInputChange} />
+                        </label>
+                      </div>
+                      <input type='submit' value='Submit' />
+                    </form>
                   </div>
-
-                  <div className='input-container'>
-                    <label htmlFor='comment-content'>Content:
-                      <textarea
-                        name='commentContent'
-                        id='comment-content'
-                        value={this.state.commentContent}
-                        onChange={this.handleInputChange} />
-                    </label>
-                  </div>
-                  <input type='submit' value='Submit' />
-                </form>
-              </div>
-
+                </div>
+              )}
       </div>
 
           )

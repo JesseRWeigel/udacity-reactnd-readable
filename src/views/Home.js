@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { fetchPosts, fetchCategories, vote, deletePost } from '../actions'
+import { fetchPosts, fetchCategories, vote, deletePost, setSorting } from '../actions'
 import { Link } from 'react-router-dom'
 import '../styles/app.css'
 const uuidv1 = require('uuid/v1')
@@ -10,8 +10,8 @@ class Home extends Component  {
     super(props)
   }
 
-  componentDidMount () {
-    this.props.fetchData()
+  componentWillMount () {
+    this.props.fetchData('BY_SCORE_HIGHEST')
   }
 
   submitVote = (id, voteType) => {
@@ -22,10 +22,19 @@ class Home extends Component  {
     this.props.dispatch(deletePost(id))
   }
 
+  handleSort = val => {
+    this.props.dispatch(setSorting(val))
+  }
+
   render () {
     return (
       <div>
         <div style={{ width: '30%', float: 'left' }}>
+          <h2>Sort Posts By:</h2>
+          <ul>
+            <li onClick={() => this.handleSort(this.props.sortBy  === 'BY_SCORE_LOWEST' ? 'BY_SCORE_HIGHEST' : 'BY_SCORE_LOWEST' )}>Votes</li>
+            <li onClick={() => this.handleSort(this.props.sortBy  === 'BY_DATE_NEWEST' ? 'BY_DATE_OLDEST' : 'BY_DATE_NEWEST' )}>Date</li>
+          </ul>
           <h2>Categories</h2>
           <ul>
             {this.props.categories &&
@@ -46,22 +55,38 @@ class Home extends Component  {
           </Link>)</h2>
 
           {this.props.posts &&
-            Object.keys(this.props.posts).map((k) => (
-              !this.props.posts[k].deleted &&
-                <div className='post' key={uuidv1()}>
-                  <Link to={`/${this.props.posts[k].category}/${this.props.posts[k].id}`}>
+            Object.values(this.props.posts)
+            .filter(post => !post.deleted)
+            .sort((a, b) => {
+              switch (this.props.sortBy) {
+                case 'BY_SCORE_LOWEST':
+                  return a.voteScore - b.voteScore
+                case 'BY_DATE_OLDEST':
+                  return a.timestamp - b.timestamp
+                case 'BY_DATE_NEWEST':
+                  return b.timestamp - a.timestamp
+                default:
+                  return  b.voteScore - a.voteScore
+              }
+            })
+            .map(post =>
+              <div className='post' key={uuidv1()}>
+                <Link to={`/${post.category}/${post.id}`}>
                   <h3>
-                    {this.props.posts[k].title}
+                    {post.title}
                   </h3>
                 </Link>
-                <span>Author> {this.props.posts[k].author}</span>
-                <span>Comments> {this.props.posts[k].comments}</span>
-                <span>Score> {this.props.posts[k].voteScore} <span id='plus' onClick={ () => this.submitVote(this.props.posts[k].id, 'upVote')}>+</span>/<span id='minus' onClick={() => this.submitVote(this.props.posts[k].id, 'downVote')}>-</span></span>
-                  <span><Link to={`/edit-post/${this.props.posts[k].id}`}>
-                    Edit
-                  </Link> / <span onClick={() => this.deletePost(this.props.posts[k].id)}>Delete</span></span>
+                <span>Author> {post.author}</span>
+                <span>Comments> {post.comments}</span>
+                <span>Score> {post.voteScore} <span id='plus' onClick={ () => this.submitVote(post.id, 'upVote')}>+</span>/<span id='minus' onClick={() => this.submitVote(post.id, 'downVote')}>-</span></span>
+                <span><Link to={`/edit-post/${post.id}`}>
+                  Edit
+                </Link> / <span onClick={() => this.deletePost(post.id)}>Delete</span></span>
               </div>
-            ))
+            )
+
+
+
 
           }
         </div>
@@ -72,12 +97,16 @@ class Home extends Component  {
 
 const mapStateToProps = state => ({
     posts: state.postsById,
-    categories: state.receiveCategories
+    categories: state.receiveCategories,
+    sortBy: state.setSorting ? state.setSorting.sort : ''
   })
 
 const mapDispatchToProps = dispatch => ({ dispatch,
-    fetchData: () =>
-      dispatch(fetchPosts()).then(() => dispatch(fetchCategories()))
+    fetchData: sortCriteria =>
+      dispatch(fetchPosts())
+      .then(() => dispatch(setSorting(sortCriteria)))
+      .then(() => dispatch(fetchCategories()))
+
   })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home)

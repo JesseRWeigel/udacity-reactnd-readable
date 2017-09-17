@@ -21,9 +21,10 @@ export const Sorting = {
   BY_SCORE_LOWEST: 'BY_SCORE_LOWEST',
 }
 
-export function setSorting(sortBy) {
-  return { type: SET_SORTING, sortBy }
-}
+export const setSorting = (sortBy) => ({
+  type: SET_SORTING,
+  sortBy
+})
 
 export const postsById = (posts, actionType) => ({
   type: actionType,
