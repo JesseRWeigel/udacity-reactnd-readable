@@ -13,6 +13,7 @@ export const VOTE = 'VOTE'
 export const COMMENT_VOTE = 'COMMENT_VOTE'
 export const DELETE_POST = 'DELETE_POST'
 export const DELETE_COMMENT = 'DELETE_COMMENT'
+export const SET_COMMENT_SORTING = 'SET_COMMENT_SORTING'
 
 export const Sorting = {
   BY_DATE_NEWEST: 'BY_DATE_NEWEST',
@@ -24,6 +25,11 @@ export const Sorting = {
 export const setSorting = (sortBy) => ({
   type: SET_SORTING,
   sortBy
+})
+
+export const setCommentSorting = (sortCommentsBy) => ({
+  type: SET_COMMENT_SORTING,
+  sortCommentsBy
 })
 
 export const postsById = (posts, actionType) => ({

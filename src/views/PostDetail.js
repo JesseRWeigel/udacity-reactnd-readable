@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { withRouter, Link } from 'react-router-dom'
-import { fetchPost, fetchComments, vote, addComment, deletePost } from '../actions'
+import { fetchPost, fetchComments, vote, addComment, deletePost, setCommentSorting } from '../actions'
 import EditComment from '../components/EditComment'
 import '../styles/app.css'
 const uuidv1 = require('uuid/v1')
@@ -17,7 +17,7 @@ class PostDetail extends Component {
   }
 
     componentWillMount () {
-      this.props.fetchData(this.props.match.params.post_id)
+      this.props.fetchData(this.props.match.params.post_id, 'BY_SCORE_HIGHEST')
     }
 
     submitVote = (id, voteType) => {
@@ -69,6 +69,10 @@ class PostDetail extends Component {
       this.props.dispatch(deletePost(id))
     }
 
+    handleSort = val => {
+      this.props.dispatch(setCommentSorting(val))
+    }
+
   render () {
     return (
       <div>
@@ -91,21 +95,37 @@ class PostDetail extends Component {
 
 
 
-                  <h2>Comments ({this.props.comments && this.props.comments.length})</h2>
-                  {this.props.comments && Object.keys(this.props.comments).map((k) => (
-                    !this.props.comments[k].deleted &&
+                  <h2>Comments ({this.props.comments &&
+                    Object.values(this.props.comments).length})</h2>
+                  {this.props.comments &&
+                    Object.values(this.props.comments)
+                    .filter(comment => !comment.deleted)
+                    .sort((a, b) => {
+                      switch (this.props.sortCommentsBy) {
+                        case 'BY_SCORE_LOWEST':
+                          return a.voteScore - b.voteScore
+                        case 'BY_DATE_OLDEST':
+                          return a.timestamp - b.timestamp
+                        case 'BY_DATE_NEWEST':
+                          return b.timestamp - a.timestamp
+                        default:
+                          return  b.voteScore - a.voteScore
+                      }
+                    })
+                    .map(comment => (
+
                       <EditComment
-                        key={k}
-                        id={k}
-                        timestamp={this.props.comments[k].timestamp}
-                        body={this.props.comments[k].body}
-                        author={this.props.comments[k].author}
-                        parentId={this.props.comments[k].parentId}
-                        voteScore={this.props.comments[k].voteScore}
-                        deleted={this.props.comments[k].deleted}
-                        parentDeleted={this.props.comments[k].parentDeleted}
+                        key={comment.id}
+                        id={comment.id}
+                        timestamp={comment.timestamp}
+                        body={comment.body}
+                        author={comment.author}
+                        parentId={comment.parentId}
+                        voteScore={comment.voteScore}
+                        deleted={comment.deleted}
+                        parentDeleted={comment.parentDeleted}
                       />
-                  ))}
+                    ))}
                   <div className='new-comment'>
                     <h3>Add a new comment:</h3>
                     <form onSubmit={this.handleSubmit}>
@@ -143,12 +163,15 @@ class PostDetail extends Component {
 
         const mapStateToProps = state => ({
           post: state.postsById,
-          comments: state.receiveComments
+          comments: state.receiveComments,
+          sortCommentsBy: state.setCommentSorting ? state.setCommentSorting.sort : ''
         })
 
         const mapDispatchToProps = dispatch => ({ dispatch,
-          fetchData: id =>
-          dispatch(fetchPost(id)).then(() => dispatch(fetchComments(id)))
+          fetchData: (id, sortCriteria) =>
+          dispatch(fetchPost(id))
+          .then(() => dispatch(fetchComments(id)))
+          .then(() => dispatch(setCommentSorting(sortCriteria)))
 
   })
 
