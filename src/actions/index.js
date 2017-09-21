@@ -50,7 +50,7 @@ export const getPostsByCategory = posts => ({
 })
 
 export const fetchPostsByCategory = (category) => dispatch =>
-  PostAPIUtil.fetchPostsByCategory(category).then(posts => dispatch(getPostsByCategory(posts)))
+  PostAPIUtil.fetchPostsByCategory(category).then(posts => dispatch(postsById(posts, GET_POSTS_BY_CATEGORY)))
 
 export const receiveComments = (comments, actionType) => ({
   type: actionType,

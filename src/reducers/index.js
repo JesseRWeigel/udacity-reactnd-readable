@@ -64,6 +64,7 @@ function makeObj(items) {
 function postsById(state = {}, action) {
   switch (action.type) {
     case RECEIVE_POSTS:
+    case GET_POSTS_BY_CATEGORY:
     return {...state, ...makeObj(action.posts)}
 
     case GET_POST:
@@ -78,14 +79,14 @@ function postsById(state = {}, action) {
   }
 }
 
-function getPostsByCategory (state = {}, action) {
-  switch (action.type) {
-    case GET_POSTS_BY_CATEGORY:
-      return action.posts
-    default:
-      return state
-  }
-}
+// function getPostsByCategory (state = {}, action) {
+//   switch (action.type) {
+//     case GET_POSTS_BY_CATEGORY:
+//       return action.posts
+//     default:
+//       return state
+//   }
+// }
 
 function receiveComments (state = {}, action) {
   switch (action.type) {
@@ -123,7 +124,7 @@ function receiveComments (state = {}, action) {
 export default combineReducers({
   // receivePosts,
   receiveCategories,
-  getPostsByCategory,
+  // getPostsByCategory,
   receiveComments,
   setSorting,
   postsById
