@@ -14,6 +14,7 @@ class PostDetail extends Component {
   state = {
     commentAuthor: '',
     commentContent: '',
+    postEditorVisible: false,
     postTitle: '',
     postAuthor: '',
     postCategory: '',
@@ -29,8 +30,10 @@ class PostDetail extends Component {
         postTitle: this.props.post[this.props.match.params.post_id].title,
         postAuthor: this.props.post[this.props.match.params.post_id].author,
         postCategory: this.props.post[this.props.match.params.post_id].category,
-        postContent: this.props.post[this.props.match.params.post_id].body
+        postContent: this.props.post[this.props.match.params.post_id].body,
+        postEditorVisible: true
       })
+
     }
 
     submitVote = (id, voteType) => {
@@ -137,59 +140,61 @@ class PostDetail extends Component {
                   <h1>{this.props.post[k].title}(Votes: {this.props.post[k].voteScore} <span id='plus' onClick={ () => this.submitVote(k, 'upVote')}>+</span>/<span id='minus' onClick={() => this.submitVote(k, 'downVote')}>-</span>)</h1>
                     <span className='author'>Author: {this.props.post[k].author}</span>
                     <span className='timestamp'>Date: {new Date(this.props.post[k].timestamp).toDateString()}</span>
-
-
                     <p>
                       {this.props.post[k].body}
                     </p>
-                    <span><Link to={`/edit-post/${this.props.post[k].id}`}>
-                      Edit
-                    </Link> / <span onClick={() => this.deletePost(this.props.post[k].id)}>Delete</span> </span>
+                    <span>
+                      <span onClick={() => this.showPostEditor()} >Edit</span>
+                      / <span onClick={() => this.deletePost(this.props.post[k].id)}>Delete</span> </span>
+                    {this.state.postEditorVisible &&
+                      <div>
+                        <h1>Edit Post</h1>
+                        <form onSubmit={this.handlePostSubmit}>
+                          <div className='input-container'>
+                            <label htmlFor='post-title'>Title:
+                              <input
+                                type='text'
+                                name='postTitle'
+                                id='post-title'
+                                value={this.state.postTitle}
+                                onChange={this.handleInputChange} />
 
-                    <h1>Edit Post</h1>
-                    <form onSubmit={this.handlePostSubmit}>
-                      <div className='input-container'>
-                        <label htmlFor='post-title'>Title:
-                          <input
-                            type='text'
-                            name='postTitle'
-                            id='post-title'
-                            value={this.state.postTitle}
-                            onChange={this.handleInputChange} />
+                            </label>
+                          </div>
+                          <div className='input-container'>
+                            <label htmlFor='post-author'>Author:
+                              <input
+                                type='text'
+                                name='postAuthor'
+                                id='post-author'
+                                value={this.state.postAuthor}
+                                onChange={this.handleInputChange} />
+                            </label>
+                          </div>
+                          <div className='input-container'>
+                            <label htmlFor='post-category'>Category:
+                              <input
+                                type='text'
+                                name='postCategory'
+                                id='post-category'
+                                value={this.state.postCategory}
+                                onChange={this.handleInputChange} />
+                            </label>
+                          </div>
+                          <div className='input-container'>
+                            <label htmlFor='post-content'>Content:
+                              <textarea
+                                name='postContent'
+                                id='post-content'
+                                value={this.state.postContent}
+                                onChange={this.handleInputChange} />
+                            </label>
+                          </div>
+                          <input type='submit' value='Submit' />
+                        </form>
+                      </div>
+                    }
 
-                        </label>
-                      </div>
-                      <div className='input-container'>
-                        <label htmlFor='post-author'>Author:
-                          <input
-                            type='text'
-                            name='postAuthor'
-                            id='post-author'
-                            value={this.state.postAuthor}
-                            onChange={this.handleInputChange} />
-                        </label>
-                      </div>
-                      <div className='input-container'>
-                        <label htmlFor='post-category'>Category:
-                          <input
-                            type='text'
-                            name='postCategory'
-                            id='post-category'
-                            value={this.state.postCategory}
-                            onChange={this.handleInputChange} />
-                        </label>
-                      </div>
-                      <div className='input-container'>
-                        <label htmlFor='post-content'>Content:
-                          <textarea
-                            name='postContent'
-                            id='post-content'
-                            value={this.state.postContent}
-                            onChange={this.handleInputChange} />
-                        </label>
-                      </div>
-                      <input type='submit' value='Submit' />
-                    </form>
 
 
 

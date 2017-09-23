@@ -9,7 +9,6 @@ import './App.css'
 // Import Views
 import Category from './views/Category'
 import CreatePost from './views/CreatePost'
-import EditPost from './views/EditPost'
 import Home from './views/Home'
 import PostDetail from './views/PostDetail'
 
@@ -37,7 +36,6 @@ class App extends Component {
           <Switch>
             <Route exact path='/' component={Home} />
             <Route path='/create-post' component={CreatePost} />
-            <Route path='/edit-post/:post_id' component={EditPost} />
             <Route exact path='/:category' component={Category} />
             <Route path='/:category/:post_id' component={PostDetail} />
 
