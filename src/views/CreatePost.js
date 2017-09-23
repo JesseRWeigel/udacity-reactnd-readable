@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-//import { withRouter } from 'react-router-dom'
-import { addPost } from '../actions'
+import { Link } from 'react-router-dom'
+import { addPost, fetchCategories } from '../actions'
 import '../styles/app.css'
 const uuidv1 = require('uuid/v1')
 
@@ -40,8 +40,27 @@ class CreatePost extends Component {
   render () {
     return (
       <div>
+        <div style={{ width: '30%', float: 'left' }}>
+          <h2>Categories</h2>
+          <ul>
+            <li>
+              <Link to="/">
+                All
+              </Link>
+            </li>
+            {this.props.categories &&
+              this.props.categories.length > 0 &&
+              this.props.categories.map(category =>
+                <li key={category.path}>
+                  <Link to={`/${category.name}`}>
+                    {category.name}
+                  </Link>
 
-        <div>
+                </li>
+              )}
+          </ul>
+        </div>
+        <div style={{ width: '70%', float: 'left' }}>
           <h1>Create New Post</h1>
           <form onSubmit={this.handleSubmit}>
             <div className='input-container'>
@@ -93,8 +112,16 @@ class CreatePost extends Component {
 
           )
         }
+      }
 
+const mapStateToProps = state => ({
+  categories: state.receiveCategories,
+})
 
-  }
+const mapDispatchToProps = dispatch => ({ dispatch,
+  fetchData: () =>
+  dispatch(fetchCategories())
 
-export default connect()(CreatePost)
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(CreatePost)

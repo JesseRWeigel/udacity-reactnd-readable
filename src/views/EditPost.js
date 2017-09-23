@@ -1,12 +1,12 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-//import { withRouter } from 'react-router-dom'
-import { addPost, fetchPost } from '../actions'
+import { Link } from 'react-router-dom'
+import { addPost, fetchPost, fetchCategories } from '../actions'
 import '../styles/app.css'
 const uuidv1 = require('uuid/v1')
 
 
-class CreatePost extends Component {
+class EditPost extends Component {
     constructor(props) {
       super(props)
     }
@@ -20,8 +20,6 @@ class CreatePost extends Component {
 
     componentWillMount () {
       const k = this.props.match.params.post_id
-      console.log(this.props.post)
-      console.log(k)
       this.props.fetchData(k)
       this.setState({
         postTitle: this.props.post[k].title,
@@ -58,9 +56,28 @@ class CreatePost extends Component {
   render () {
     return (
       <div>
+        <div style={{ width: '30%', float: 'left' }}>
+          <h2>Categories</h2>
+          <ul>
+            <li>
+              <Link to="/">
+                All
+              </Link>
+            </li>
+            {this.props.categories &&
+                            this.props.categories.length > 0 &&
+              this.props.categories.map(category =>
+                <li key={category.path}>
+                  <Link to={`/${category.name}`}>
+                    {category.name}
+                  </Link>
 
-        <div>
-          <h1>Create New Post</h1>
+                </li>
+              )}
+          </ul>
+        </div>
+        <div style={{ width: '70%', float: 'left' }}>
+          <h1>Edit Post</h1>
           <form onSubmit={this.handleSubmit}>
             <div className='input-container'>
               <label htmlFor='post-title'>Title:
@@ -111,18 +128,18 @@ class CreatePost extends Component {
 
           )
         }
-
-
   }
 
-      const mapStateToProps = state => ({
-        post: state.postsById,
-      })
+const mapStateToProps = state => ({
+  post: state.postsById,
+  categories: state.receiveCategories,
+})
 
-      const mapDispatchToProps = dispatch => ({ dispatch,
-        fetchData: id =>
-        dispatch(fetchPost(id))
+const mapDispatchToProps = dispatch => ({ dispatch,
+  fetchData: id =>
+  dispatch(fetchPost(id))
+  .then(() => dispatch(fetchCategories()))
 
-      })
+})
 
-export default connect(mapStateToProps, mapDispatchToProps)(CreatePost)
+export default connect(mapStateToProps, mapDispatchToProps)(EditPost)

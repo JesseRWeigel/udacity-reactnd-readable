@@ -33,6 +33,11 @@ class Category extends Component {
           </ul>
           <h2>Categories</h2>
           <ul>
+            <li>
+              <Link to="/">
+                All
+              </Link>
+            </li>
             {this.props.categories &&
               this.props.categories.length > 0 &&
               this.props.categories.map(category =>
