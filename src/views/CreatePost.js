@@ -13,6 +13,10 @@ class CreatePost extends Component {
     postContent: ''
   }
 
+  componentWillMount () {
+    this.props.fetchData()
+  }
+
    handleInputChange = (event) => {
       const target = event.target;
       const value = target.value;
@@ -33,8 +37,8 @@ class CreatePost extends Component {
       category: this.state.postCategory,
       voteScore: 1,
       deleted: false}
-    console.log(data)
     this.props.dispatch(addPost(data))
+    this.props.history.push('/')
   }
 
   render () {
