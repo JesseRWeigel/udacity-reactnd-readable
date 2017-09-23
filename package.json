@@ -35,6 +35,13 @@
     ]
   },
   "standard": {
+    "globals": [
+      "fetch",
+      "localStorage",
+      "it",
+      "submitVote",
+      "handleSort"
+    ],
     "parser": "babel-eslint"
   }
 }
