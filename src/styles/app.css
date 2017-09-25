@@ -26,6 +26,10 @@ ul li {
   cursor: pointer;
 }
 
+.clickable:hover, a:hover {
+  text-decoration: underline;
+}
+
 a {
   text-decoration: none;
   color: #1ec503;
@@ -41,6 +45,7 @@ input, textarea {
     color: #1ec503;
     border-bottom: dashed 1px #1ec503;
     margin-top: 8px;
+    outline: none;
 }
 
 input[type=submit] {

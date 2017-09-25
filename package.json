@@ -47,7 +47,8 @@
       "handlePostSubmit",
       "handleEditSubmit",
       "handleDelete",
-      "beginEdit"
+      "beginEdit",
+      "handleCommentSort"
     ],
     "parser": "babel-eslint"
   }
