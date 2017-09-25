@@ -1,9 +1,13 @@
+@import url('https://fonts.googleapis.com/css?family=VT323');
+
 body {
   width: 100%;
   min-height: 100vh;
-  background-color: #000;
-  font-family: monospace;
-  color: green;
+  background-color: rgba(0, 0, 0, 0.88);
+  font-family: 'VT323', monospace;
+  color: #1ec503;
+  font-size: 16px;
+  font-weight: 400;
 }
 
 ul {
@@ -21,3 +25,35 @@ ul li {
 .clickable {
   cursor: pointer;
 }
+
+a {
+  text-decoration: none;
+  color: #1ec503;
+}
+
+a:visited {
+  color: #1ec503;
+}
+
+input, textarea {
+  border: none;
+    background-color: transparent;
+    color: #1ec503;
+    border-bottom: dashed 1px #1ec503;
+    margin-top: 8px;
+}
+
+input[type=submit] {
+  border: 1px solid #1ec503;
+  cursor: pointer;
+}
+
+/*.circle-btn, .plus, .minus {
+  border-radius: 50%;
+  border: 1px #1ec503 solid;
+  width: 20px;
+  height: 20px;
+  display: inline-block;
+  line-height: 20px;
+  text-align: center;
+}*/
