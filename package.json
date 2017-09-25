@@ -40,7 +40,14 @@
       "localStorage",
       "it",
       "submitVote",
-      "handleSort"
+      "handleSort",
+      "state",
+      "handleInputChange",
+      "handleSubmit",
+      "handlePostSubmit",
+      "handleEditSubmit",
+      "handleDelete",
+      "beginEdit"
     ],
     "parser": "babel-eslint"
   }

@@ -6,6 +6,18 @@ body {
   color: green;
 }
 
+ul {
+  padding-left: 8px;
+}
+
+ul li {
+  list-style-type: none;
+}
+
 .post>span, .author, .timestamp {
   display: block;
+}
+
+.clickable {
+  cursor: pointer;
 }

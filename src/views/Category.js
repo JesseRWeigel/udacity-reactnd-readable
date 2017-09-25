@@ -1,13 +1,8 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import {
-  fetchPostsByCategory,
-  fetchCategories,
-  vote,
-  deletePost,
-  setSorting
-} from '../actions'
+import { fetchPostsByCategory, vote, deletePost, setSorting } from '../actions'
 import { Link } from 'react-router-dom'
+import SideNav from '../components/SideNav'
 import '../styles/app.css'
 const uuidv1 = require('uuid/v1')
 
@@ -24,53 +19,10 @@ class Category extends Component {
     this.props.dispatch(deletePost(id))
   }
 
-  handleSort = val => {
-    this.props.dispatch(setSorting(val))
-  }
-
   render () {
     return (
       <div>
-        <div style={{ width: '30%', float: 'left' }}>
-          <h2>Sort Posts By:</h2>
-          <ul>
-            <li
-              onClick={() =>
-                this.handleSort(
-                  this.props.sortBy === 'BY_SCORE_LOWEST'
-                    ? 'BY_SCORE_HIGHEST'
-                    : 'BY_SCORE_LOWEST'
-                )}
-            >
-              Votes
-            </li>
-            <li
-              onClick={() =>
-                this.handleSort(
-                  this.props.sortBy === 'BY_DATE_NEWEST'
-                    ? 'BY_DATE_OLDEST'
-                    : 'BY_DATE_NEWEST'
-                )}
-            >
-              Date
-            </li>
-          </ul>
-          <h2>Categories</h2>
-          <ul>
-            <li>
-              <Link to='/'>All</Link>
-            </li>
-            {this.props.categories &&
-              this.props.categories.length > 0 &&
-              this.props.categories.map(category =>
-                <li key={category.path}>
-                  <Link to={`/${category.name}`}>
-                    {category.name}
-                  </Link>
-                </li>
-              )}
-          </ul>
-        </div>
+        <SideNav sortBy={this.props.sortBy} />
         <div style={{ width: '70%', float: 'left' }}>
           <h2>
             Posts > Category: {this.props.match.params.category} (<Link to='/create-post'>Add New</Link>)
@@ -133,16 +85,15 @@ class Category extends Component {
 
 const mapStateToProps = state => ({
   posts: state.postsById,
-  categories: state.receiveCategories,
   sortBy: state.setSorting ? state.setSorting.sort : ''
 })
 
 const mapDispatchToProps = dispatch => ({
   dispatch,
   fetchData: (category, sortCriteria) =>
-    dispatch(fetchPostsByCategory(category))
-      .then(() => dispatch(setSorting(sortCriteria)))
-      .then(() => dispatch(fetchCategories()))
+    dispatch(fetchPostsByCategory(category)).then(() =>
+      dispatch(setSorting(sortCriteria))
+    )
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Category)
