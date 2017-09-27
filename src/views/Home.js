@@ -68,7 +68,7 @@ class Home extends Component {
                     </span>
                   </span>
                   <span>
-                    Comments: {post.comments.length}
+                    Comments: {post.comments && post.comments.length}
                   </span>
                   <span>
                     <Link to={`/edit-post/${post.id}`}>Edit</Link> /{' '}

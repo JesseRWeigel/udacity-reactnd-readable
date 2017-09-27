@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import {
-  addPost,
+  editPost,
   fetchPost,
   fetchComments,
   vote,
@@ -82,23 +82,7 @@ class PostDetail extends Component {
       voteScore: this.props.post[this.props.match.params.post_id].voteScore,
       deleted: this.props.post[this.props.match.params.post_id].deleted
     }
-    this.props.dispatch(addPost(data))
-  }
-
-  handleEditSubmit = (event, id) => {
-    event.preventDefault()
-    const data = {
-      id: this.props.post.id,
-      timestamp: this.props.post.timestamp,
-      title: this.state.postTitle,
-      body: this.state.postContent,
-      author: this.state.postAuthor,
-      category: this.state.postCategory,
-      voteScore: this.props.post.voteScore,
-      deleted: this.props.post.deleted
-    }
-    console.log(data)
-    this.props.dispatch(addComment(data))
+    this.props.dispatch(editPost(data))
   }
 
   deletePost = id => {

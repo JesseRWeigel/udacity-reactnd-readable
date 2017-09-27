@@ -14,6 +14,7 @@ export const COMMENT_VOTE = 'COMMENT_VOTE'
 export const DELETE_POST = 'DELETE_POST'
 export const DELETE_COMMENT = 'DELETE_COMMENT'
 export const SET_COMMENT_SORTING = 'SET_COMMENT_SORTING'
+export const EDIT_POST = 'EDIT_POST'
 
 export const Sorting = {
   BY_DATE_NEWEST: 'BY_DATE_NEWEST',
@@ -32,12 +33,10 @@ export const setCommentSorting = sortCommentsBy => ({
   sortCommentsBy
 })
 
-export const postsById = (posts, actionType) => {
-  return {
-    type: actionType,
-    posts
-  }
-}
+export const postsById = (posts, actionType) => ({
+  type: actionType,
+  posts
+})
 
 // Got the idea for this from the udacity-react Slack. Specifically from user azreed.
 export const fetchPosts = () => dispatch =>
@@ -106,15 +105,40 @@ export const fetchPost = id => dispatch =>
     .then(post => dispatch(postsById(post, GET_POST)))
 
 export const deletePost = id => dispatch =>
-  PostAPIUtil.deletePost(id).then(post =>
-    dispatch(postsById(post, DELETE_POST))
-  )
+  PostAPIUtil.deletePost(id)
+    .then(post =>
+      CommentAPIUtil.fetchComments(post.id)
+        .then(comments => (post.comments = comments))
+        .then(() => post)
+    )
+    .then(post => dispatch(postsById(post, DELETE_POST)))
 
 export const vote = (id, vote) => dispatch =>
-  PostAPIUtil.vote(id, vote).then(post => dispatch(postsById(post, VOTE)))
+  PostAPIUtil.vote(id, vote)
+    .then(post =>
+      CommentAPIUtil.fetchComments(post.id)
+        .then(comments => (post.comments = comments))
+        .then(() => post)
+    )
+    .then(post => dispatch(postsById(post, VOTE)))
 
 export const addPost = data => dispatch =>
-  PostAPIUtil.addPost(data).then(post => dispatch(postsById(post, ADD_POST)))
+  PostAPIUtil.addPost(data)
+    .then(post =>
+      CommentAPIUtil.fetchComments(post.id)
+        .then(comments => (post.comments = comments))
+        .then(() => post)
+    )
+    .then(post => dispatch(postsById(post, ADD_POST)))
+
+export const editPost = data => dispatch =>
+  PostAPIUtil.editPost(data)
+    .then(post =>
+      CommentAPIUtil.fetchComments(post.id)
+        .then(comments => (post.comments = comments))
+        .then(() => post)
+    )
+    .then(post => dispatch(postsById(post, EDIT_POST)))
 
 export const addComment = data => dispatch =>
   CommentAPIUtil.addComment(data).then(comment =>
