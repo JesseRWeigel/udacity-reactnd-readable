@@ -171,6 +171,7 @@ class PostDetail extends Component {
                               id='post-title'
                               value={this.state.postTitle}
                               onChange={this.handleInputChange}
+                              required='required'
                             />
                           </label>
                         </div>
@@ -183,19 +184,25 @@ class PostDetail extends Component {
                               id='post-author'
                               value={this.state.postAuthor}
                               onChange={this.handleInputChange}
+                              required='required'
                             />
                           </label>
                         </div>
                         <div className='input-container'>
                           <label htmlFor='post-category'>
                             Category:
-                            <input
+                            <select
                               type='text'
                               name='postCategory'
                               id='post-category'
                               value={this.state.postCategory}
                               onChange={this.handleInputChange}
-                            />
+                              required='required'
+                            >
+                              <option value='react'>React</option>
+                              <option value='redux'>Redux</option>
+                              <option value='udacity'>Udacity</option>
+                            </select>
                           </label>
                         </div>
                         <div className='input-container'>
@@ -257,6 +264,7 @@ class PostDetail extends Component {
                             id='comment-author'
                             value={this.state.commentAuthor}
                             onChange={this.handleInputChange}
+                            required='required'
                           />
                         </label>
                       </div>
@@ -269,6 +277,7 @@ class PostDetail extends Component {
                             id='comment-content'
                             value={this.state.commentContent}
                             onChange={this.handleInputChange}
+                            required='required'
                           />
                         </label>
                       </div>

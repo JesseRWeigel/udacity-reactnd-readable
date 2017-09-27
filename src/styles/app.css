@@ -39,18 +39,25 @@ a:visited {
   color: #1ec503;
 }
 
-input, textarea {
+input, textarea, select {
   border: none;
-    background-color: transparent;
-    color: #1ec503;
-    border-bottom: dashed 1px #1ec503;
-    margin-top: 8px;
-    outline: none;
+  background-color: transparent;
+  color: #1ec503;
+  border-bottom: dashed 1px #1ec503;
+  margin-top: 8px;
+  outline: none;
+  margin-left: 8px;
 }
 
 input[type=submit] {
   border: 1px solid #1ec503;
   cursor: pointer;
+}
+
+select {
+  border-radius: 0px;
+  -webkit-appearance: none;
+  width: 115px;
 }
 
 /*.circle-btn, .plus, .minus {

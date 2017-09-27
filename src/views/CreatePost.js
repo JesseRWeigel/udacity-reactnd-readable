@@ -73,13 +73,18 @@ class CreatePost extends Component {
             <div className='input-container'>
               <label htmlFor='post-category'>
                 Category:
-                <input
+                <select
                   type='text'
                   name='postCategory'
                   id='post-category'
                   value={this.state.postCategory}
                   onChange={this.handleInputChange}
-                />
+                  required='required'
+                >
+                  <option value='react'>React</option>
+                  <option value='redux'>Redux</option>
+                  <option value='udacity'>Udacity</option>
+                </select>
               </label>
             </div>
             <div className='input-container'>
@@ -90,6 +95,7 @@ class CreatePost extends Component {
                   id='post-content'
                   value={this.state.postContent}
                   onChange={this.handleInputChange}
+                  required='required'
                 />
               </label>
             </div>

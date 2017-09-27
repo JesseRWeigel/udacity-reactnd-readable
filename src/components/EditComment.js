@@ -108,6 +108,7 @@ class EditComment extends Component {
                     id='comment-author'
                     value={this.state.commentAuthor}
                     onChange={this.handleInputChange}
+                    required='required'
                   />
                 </label>
               </div>
@@ -120,6 +121,7 @@ class EditComment extends Component {
                     id='comment-content'
                     value={this.state.commentContent}
                     onChange={this.handleInputChange}
+                    required='required'
                   />
                 </label>
               </div>
