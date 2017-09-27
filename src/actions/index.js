@@ -19,26 +19,39 @@ export const Sorting = {
   BY_DATE_NEWEST: 'BY_DATE_NEWEST',
   BY_DATE_OLDEST: 'BY_DATE_OLDEST',
   BY_SCORE_HIGHEST: 'BY_SCORE_HIGHEST',
-  BY_SCORE_LOWEST: 'BY_SCORE_LOWEST',
+  BY_SCORE_LOWEST: 'BY_SCORE_LOWEST'
 }
 
-export const setSorting = (sortBy) => ({
+export const setSorting = sortBy => ({
   type: SET_SORTING,
   sortBy
 })
 
-export const setCommentSorting = (sortCommentsBy) => ({
+export const setCommentSorting = sortCommentsBy => ({
   type: SET_COMMENT_SORTING,
   sortCommentsBy
 })
 
-export const postsById = (posts, actionType) => ({
-  type: actionType,
-  posts
-})
+export const postsById = (posts, actionType) => {
+  return {
+    type: actionType,
+    posts
+  }
+}
 
+// Got the idea for this from the udacity-react Slack. Specifically from user azreed.
 export const fetchPosts = () => dispatch =>
-  PostAPIUtil.fetchPosts().then(posts => dispatch(postsById(posts, RECEIVE_POSTS)))
+  PostAPIUtil.fetchPosts()
+    .then(posts =>
+      Promise.all(
+        posts.map(post =>
+          CommentAPIUtil.fetchComments(post.id)
+            .then(comments => (post.comments = comments))
+            .then(() => post)
+        )
+      )
+    )
+    .then(posts => dispatch(postsById(posts, RECEIVE_POSTS)))
 
 export const receiveCategories = categories => ({
   type: RECEIVE_CATEGORIES,
@@ -55,36 +68,60 @@ export const getPostsByCategory = posts => ({
   posts
 })
 
-export const fetchPostsByCategory = (category) => dispatch =>
-  PostAPIUtil.fetchPostsByCategory(category).then(posts => dispatch(postsById(posts, GET_POSTS_BY_CATEGORY)))
+export const fetchPostsByCategory = category => dispatch =>
+  PostAPIUtil.fetchPostsByCategory(category)
+    .then(posts =>
+      Promise.all(
+        posts.map(post =>
+          CommentAPIUtil.fetchComments(post.id)
+            .then(comments => (post.comments = comments))
+            .then(() => post)
+        )
+      )
+    )
+    .then(posts => dispatch(postsById(posts, GET_POSTS_BY_CATEGORY)))
 
 export const receiveComments = (comments, actionType) => ({
   type: actionType,
   comments
 })
 
-export const fetchComments = (id) => dispatch =>
+export const fetchComments = id => dispatch =>
   CommentAPIUtil.fetchComments(id).then(comments =>
     dispatch(receiveComments(comments, RECEIVE_COMMENTS))
   )
 
 export const voteComment = (id, vote) => dispatch =>
-  CommentAPIUtil.voteComment(id, vote).then(comment => dispatch(receiveComments(comment, COMMENT_VOTE)))
+  CommentAPIUtil.voteComment(id, vote).then(comment =>
+    dispatch(receiveComments(comment, COMMENT_VOTE))
+  )
 
-export const fetchPost = (id) => dispatch =>
-  PostAPIUtil.fetchPost(id).then(post => dispatch(postsById(post, GET_POST)))
+export const fetchPost = id => dispatch =>
+  PostAPIUtil.fetchPost(id)
+    .then(post =>
+      CommentAPIUtil.fetchComments(post.id)
+        .then(comments => (post.comments = comments))
+        .then(() => post)
+    )
+    .then(post => dispatch(postsById(post, GET_POST)))
 
-export const deletePost = (id) => dispatch =>
-  PostAPIUtil.deletePost(id).then(post => dispatch(postsById(post, DELETE_POST)))
+export const deletePost = id => dispatch =>
+  PostAPIUtil.deletePost(id).then(post =>
+    dispatch(postsById(post, DELETE_POST))
+  )
 
 export const vote = (id, vote) => dispatch =>
   PostAPIUtil.vote(id, vote).then(post => dispatch(postsById(post, VOTE)))
 
-export const addPost = (data) => dispatch =>
+export const addPost = data => dispatch =>
   PostAPIUtil.addPost(data).then(post => dispatch(postsById(post, ADD_POST)))
 
-export const addComment = (data) => dispatch =>
-  CommentAPIUtil.addComment(data).then(comment => dispatch(receiveComments(comment, ADD_COMMENT)))
+export const addComment = data => dispatch =>
+  CommentAPIUtil.addComment(data).then(comment =>
+    dispatch(receiveComments(comment, ADD_COMMENT))
+  )
 
-export const deleteComment = (id) => dispatch =>
-  CommentAPIUtil.deleteComment(id).then(comment => dispatch(receiveComments(comment, DELETE_COMMENT)))
+export const deleteComment = id => dispatch =>
+  CommentAPIUtil.deleteComment(id).then(comment =>
+    dispatch(receiveComments(comment, DELETE_COMMENT))
+  )

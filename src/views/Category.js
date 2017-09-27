@@ -72,6 +72,9 @@ class Category extends Component {
                     </span>
                   </span>
                   <span>
+                    {' '}Comments: {post.comments.length}
+                  </span>
+                  <span>
                     <Link to={`/edit-post/${post.id}`}>Edit</Link> /{' '}
                     <span onClick={() => this.deletePost(post.id)}>Delete</span>
                   </span>
