@@ -72,10 +72,18 @@ class Category extends Component {
                     </span>
                   </span>
                   <span>
-                    {' '}Comments: {post.comments.length}
+                    Comments: {post.comments.length}
                   </span>
                   <span>
-                    <Link to={`/edit-post/${post.id}`}>Edit</Link> /{' '}
+                    <Link
+                      to={{
+                        pathname: `/${post.category}/${post.id}`,
+                        state: { postEditorVisible: true }
+                      }}
+                    >
+                      Edit
+                    </Link>{' '}
+                    /{' '}
                     <span onClick={() => this.deletePost(post.id)}>Delete</span>
                   </span>
                 </div>

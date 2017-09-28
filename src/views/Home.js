@@ -71,7 +71,15 @@ class Home extends Component {
                     Comments: {post.comments && post.comments.length}
                   </span>
                   <span>
-                    <Link to={`/edit-post/${post.id}`}>Edit</Link> /{' '}
+                    <Link
+                      to={{
+                        pathname: `/${post.category}/${post.id}`,
+                        state: { postEditorVisible: true }
+                      }}
+                    >
+                      Edit
+                    </Link>{' '}
+                    /{' '}
                     <span
                       className='clickable'
                       onClick={() => this.deletePost(post.id)}

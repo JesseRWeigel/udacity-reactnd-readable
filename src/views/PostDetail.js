@@ -27,7 +27,14 @@ class PostDetail extends Component {
   }
 
   componentWillMount () {
-    this.props.fetchData(this.props.match.params.post_id, 'BY_SCORE_HIGHEST')
+    this.props
+      .fetchData(this.props.match.params.post_id, 'BY_SCORE_HIGHEST')
+      .then(
+        () =>
+          this.props.location.state &&
+          this.props.location.state.postEditorVisible &&
+          this.showPostEditor()
+      )
   }
 
   showPostEditor () {
