@@ -48,8 +48,8 @@ export const addPost = data =>
   }).then(data => data.json())
 
 // Edit post
-export const editPost = data =>
-  fetch(`http://localhost:3001/posts`, {
+export const editPost = (data, id) =>
+  fetch(`http://localhost:3001/posts/${id}`, {
     method: 'PUT',
     headers: {
       Authorization: 'whatever-you-want',

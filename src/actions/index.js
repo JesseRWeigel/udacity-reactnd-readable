@@ -131,8 +131,8 @@ export const addPost = data => dispatch =>
     )
     .then(post => dispatch(postsById(post, ADD_POST)))
 
-export const editPost = data => dispatch =>
-  PostAPIUtil.editPost(data)
+export const editPost = (data, id) => dispatch =>
+  PostAPIUtil.editPost(data, id)
     .then(post =>
       CommentAPIUtil.fetchComments(post.id)
         .then(comments => (post.comments = comments))

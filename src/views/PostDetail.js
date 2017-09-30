@@ -89,7 +89,7 @@ class PostDetail extends Component {
       voteScore: this.props.post[this.props.match.params.post_id].voteScore,
       deleted: this.props.post[this.props.match.params.post_id].deleted
     }
-    this.props.dispatch(editPost(data))
+    this.props.dispatch(editPost(data, data.id))
   }
 
   deletePost = id => {
