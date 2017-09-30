@@ -9,7 +9,7 @@ class CreatePost extends Component {
   state = {
     postTitle: '',
     postAuthor: '',
-    postCategory: '',
+    postCategory: 'react',
     postContent: ''
   }
 
